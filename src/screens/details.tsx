@@ -2,9 +2,9 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { View, StyleSheet, Text } from 'react-native';
 
 import { RootStackParamList } from '../navigation';
+import { Env } from '@/utils/env';
 
 type DetailsSreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
-
 export default function Details() {
   const router = useRoute<DetailsSreenRouteProp>();
 
@@ -13,6 +13,7 @@ export default function Details() {
       <View style={styles.main}>
         <Text style={styles.title}>Details</Text>
         <Text style={styles.subtitle}>Showing details for user {router.params.name}.</Text>
+        <Text style={styles.subtitle}>ENV {Env.BUNDLE_ID}</Text>
       </View>
     </View>
   );
