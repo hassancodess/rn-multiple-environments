@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "android": "expo start --android",
-    "format": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix && prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
+    "format": "prettier --loglevel warn --write \"**/*.{--write,ts,tsx,css,md}\"",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "start": "EXPO_NO_DOTENV=1 expo start",
@@ -12,7 +12,12 @@
     "start:development": "APP_ENV=development npm run start",
     "prebuild:production": "APP_ENV=production npx expo prebuild",
     "prebuild:staging": "APP_ENV=staging npx expo prebuild",
-    "prebuild:development": "APP_ENV=development npx expo prebuild"
+    "prebuild:development": "APP_ENV=development npx expo prebuild",
+    "lint": "eslint . --cache --fix --ext .ts,.tsx",
+    "pretest": "npm run lint",
+    "posttest": "npm run format",
+    "prepare": "husky install",
+    "release": "release-it"
   },
   "dependencies": {
     "@react-navigation/native": "^6.1.7",
@@ -31,13 +36,50 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@release-it/conventional-changelog": "^8.0.1",
     "@types/react": "~18.2.14",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
     "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-config-universe": "^12.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
     "prettier": "^3.0.3",
+    "release-it": "^17.0.1",
     "typescript": "^5.1.3"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release v${version}"
+    },
+    "github": {
+      "release": true
+    },
+    "npm": {
+      "publish": false
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "infile": "CHANGELOG.md",
+        "preset": {
+          "name": "conventionalcommits",
+          "types": [
+            {
+              "type": "feat",
+              "section": "Features"
+            },
+            {
+              "type": "fix",
+              "section": "Bug Fixes"
+            },
+            {}
+          ]
+        }
+      }
+    }
   },
   "eslintConfig": {
     "extends": "universe/native"
@@ -50,5 +92,12 @@
       ]
     }
   },
-  "private": true
+  "private": true,
+  "engines": {
+    "node": ">=10"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --cache --fix",
+    "*.{--write,ts,tsx,css,md}": "prettier --write"
+  }
 }
