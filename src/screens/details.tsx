@@ -1,40 +1,14 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { View, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
-import { RootStackParamList } from '../navigation';
-import { Env } from '@/utils/env';
-
-type DetailsSreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
-export default function Details() {
-  const router = useRoute<DetailsSreenRouteProp>();
-
+const details = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Details</Text>
-        <Text style={styles.subtitle}>Showing details for user {router.params.name}.</Text>
-        <Text style={styles.subtitle}>ENV {Env.BUNDLE_ID}</Text>
-      </View>
+    <View>
+      <Text>details</Text>
     </View>
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-  main: {
-    flex: 1,
-    maxWidth: 960,
-    marginHorizontal: 'auto',
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: 'bold',
-  },
-  subtitle: {
-    fontSize: 36,
-    color: '#38434D',
-  },
-});
+export default details
+
+const styles = StyleSheet.create({})
